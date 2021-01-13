@@ -64,6 +64,20 @@ int sunday(const char *s, const char *t) {
     return -1;
 }
 
+//shift_and算法
+int shift_and(const char *s, const char *t) {
+    int d[256] = {0};
+    int n = strlen(t);
+    for (int i = 0; t[i]; ++i) {
+        d[t[i]] |= (1 << i);
+    }
+    int p = 0;
+    for (int i = 0; s[i]; ++i) {
+        p = (p << 1 | 1) & d[s[i]];
+        if ( p & (1 << (n - 1))) return i - n + 1;
+    }
+    return -1;
+}
 
 int main () {
     char s[1000], t[1000];
@@ -72,6 +86,7 @@ int main () {
         printf("brute_force(%s %s) = %d\n", s, t, brute_force(s,t) );
         printf("KMP(%s %s) = %d\n", s, t, kmp(s,t));
         printf("sunday(%s %s) = %d\n", s, t, sunday(s,t));
+        printf("shift_and(%s %s) = %d\n", s, t, shift_and(s, t));
     }
 
     return 0;
